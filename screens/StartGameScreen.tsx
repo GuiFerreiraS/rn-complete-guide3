@@ -10,6 +10,7 @@ import {
   Dimensions,
   ScrollView,
   KeyboardAvoidingView,
+  ImageBackground,
 } from "react-native";
 import Card from "../components/Card";
 import Input from "../components/Input";
@@ -73,55 +74,68 @@ const StartGameScreen = ({ onStartGame }: StartGameScreenProps) => {
   }
 
   return (
-    <ScrollView>
-      <KeyboardAvoidingView behavior="position">
-        <TouchableWithoutFeedback
-          onPress={() => {
-            Keyboard.dismiss();
-          }}
-        >
-          <View style={styles.screen}>
-            <Text style={styles.title}>Start a new Game!</Text>
-            <Card style={styles.inputContainer}>
-              <Text style={defaultStyles.bodyText}>Select a Number</Text>
-              <Input
-                style={styles.input}
-                blurOnSubmit
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardType="number-pad"
-                maxLength={2}
-                value={enteredValue}
-                onChangeText={(text) =>
-                  setEnteredValue(text.replace(/[^0-9]/g, "").replace(",", ""))
-                }
-              />
-              <View style={styles.buttonContainer}>
-                <View style={{ width: buttonWidth }}>
-                  <Button
-                    title="Reset"
-                    onPress={resetInputHandler}
-                    color={colors.accent}
-                  />
+    <ImageBackground
+      source={{
+        uri: "https://raw.githubusercontent.com/academind/react-native-practical-guide-code/04-deep-dive-real-app/extra-files/images/background.png",
+      }}
+      resizeMode="cover"
+      style={styles.background}
+      imageStyle={styles.imgBack}
+    >
+      <ScrollView>
+        <KeyboardAvoidingView behavior="position">
+          <TouchableWithoutFeedback
+            onPress={() => {
+              Keyboard.dismiss();
+            }}
+          >
+            <View style={styles.screen}>
+              <Text style={styles.title}>Start a new Game!</Text>
+              <Card style={styles.inputContainer}>
+                <Text style={defaultStyles.bodyText}>Select a Number</Text>
+                <Input
+                  style={styles.input}
+                  blurOnSubmit
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardType="number-pad"
+                  maxLength={2}
+                  value={enteredValue}
+                  onChangeText={(text) =>
+                    setEnteredValue(
+                      text.replace(/[^0-9]/g, "").replace(",", "")
+                    )
+                  }
+                />
+                <View style={styles.buttonContainer}>
+                  <View style={{ width: buttonWidth }}>
+                    <Button
+                      title="Reset"
+                      onPress={resetInputHandler}
+                      color={colors.accent}
+                    />
+                  </View>
+                  <View style={{ width: buttonWidth }}>
+                    <Button
+                      title="Confirm"
+                      onPress={confirmInputHandler}
+                      color={colors.primary}
+                    />
+                  </View>
                 </View>
-                <View style={{ width: buttonWidth }}>
-                  <Button
-                    title="Confirm"
-                    onPress={confirmInputHandler}
-                    color={colors.primary}
-                  />
-                </View>
-              </View>
-            </Card>
-            {confirmedOutput}
-          </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </ScrollView>
+              </Card>
+              {confirmedOutput}
+            </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </ScrollView>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  imgBack: { opacity: 0.2 },
+  background: { width: "100%", height: "100%", flex: 1 },
   screen: {
     flex: 1,
     padding: 10,

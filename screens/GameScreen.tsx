@@ -3,10 +3,9 @@ import {
   Alert,
   Dimensions,
   FlatList,
-  ListRenderItem,
-  ScrollView,
   StyleSheet,
   Text,
+  useWindowDimensions,
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -56,25 +55,11 @@ const GameScreen = ({ userChoice, onGameOver }: GameScreenProps) => {
   const [pastGuesses, setPastGuesses] = useState<string[]>([
     initialGuess.toString(),
   ]);
-  const [deviceWidth, setDeviceWidth] = useState<number>(
-    Dimensions.get("window").width
-  );
-  const [deviceHeight, setDeviceHeight] = useState<number>(
-    Dimensions.get("window").height
-  );
+
+  const { width, height } = useWindowDimensions();
+
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
-
-  useEffect(() => {
-    const updateLayout = () => {
-      setDeviceWidth(Dimensions.get("window").width);
-      setDeviceHeight(Dimensions.get("window").height);
-    };
-
-    Dimensions.addEventListener("change", updateLayout);
-
-    return () => Dimensions.removeEventListener("change", updateLayout);
-  });
 
   useEffect(() => {
     if (currentGuess === userChoice) {
@@ -109,7 +94,7 @@ const GameScreen = ({ userChoice, onGameOver }: GameScreenProps) => {
     setCurrentGuess(nextNumber);
   };
 
-  if (deviceHeight < 500) {
+  if (height < 500) {
     return (
       <View style={styles.screen}>
         <Text style={defaultStyles.bodyText}>Opponent's Guess</Text>
